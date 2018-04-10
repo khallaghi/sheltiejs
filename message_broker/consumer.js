@@ -7,10 +7,10 @@ function consumer(callback) {
     return conn.createChannel().then(function (ch) {
       var ok = ch.assertExchange('kubeclient', 'fanout', {durable: false});
       ok = ok.then(function () {
-        return ch.assertQueue('command', {exclusive: true});
+        return ch.assertQueue('_command', {exclusive: true});
       });
       ok = ok.then(function (qok) {
-        return ch.bindQueue(qok.queue, 'kubeclient', 'command').then(function () {
+        return ch.bindQueue(qok.queue, 'kubeclient', '_command').then(function () {
           return qok.queue;
         });
       });
@@ -25,4 +25,4 @@ function consumer(callback) {
   }).catch(console.warn);
 
 }
-module.exports = consumer();
+module.exports = consumer;

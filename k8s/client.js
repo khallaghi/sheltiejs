@@ -6,9 +6,12 @@ module.exports = {
   async handleObj (deploymentManifest, namespace) {
     try {
       namespace = namespace || 'default';
-      const create = await client.apis.apps.v1.namespaces(namespace).deployments.post({ body: deploymentManifest });
+	    console.log(namespace);
+	    const job = await client.apis.batch.v1.namespaces(namespace).jobs.get({pretty: true});
+	    console.log(JSON.stringify(job, null, 2));
+      const create = await client.apis.batch.v1.namespaces(namespace).jobs.post({ body: deploymentManifest });
       console.log('CREATE');
-      console.log(create);
+      console.log(JSON.stringify(create, null, 2));
     } catch (err) {
       console.log(err);
     }

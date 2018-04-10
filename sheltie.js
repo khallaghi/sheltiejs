@@ -1,14 +1,21 @@
-const k8s_client = require('/k8s/client');
+const k8s_client = require('./k8s/client');
 const yaml = require('yamljs');
-const config = require('/config/config');
-const InputMessage = require('/models/input_message');
-const consumer = require('/message_broker/consumer');
+const config = require('./config/config');
+const InputMessage = require('./models/input_message');
+const consumer = require('./message_broker/consumer');
 
 function callback(rawMessage) {
-  console.log(rawMessage);
-  let inputMessage = new InputMessage(rawMessage);
+  console.log('[X] %s' ,rawMessage.content.toString());
+  let inputMessage = new InputMessage(rawMessage.content.toString());
   let deploymentObj = yaml.load(config.DEFAULT.ROOT_DIR + inputMessage.filename);
+	console.log('YAML:');
+	console.log(deploymentObj);
   k8s_client.handleObj(deploymentObj, inputMessage.namespace);
+}
+function print(message) {
+	console.log(message.content.toString());
+
+
 }
 
 consumer(callback);

@@ -1,5 +1,6 @@
 module.exports = class InputMessage {
-  constructor(rawJson) {
+  constructor(jsonStr) {
+	  let rawJson = JSON.parse(jsonStr);
     this.filename = rawJson['file_name'];
     this.kind = rawJson['kind'];
     this.command = rawJson['create'];
