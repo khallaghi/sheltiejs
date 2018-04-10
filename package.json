@@ -1,0 +1,22 @@
+{
+  "name": "sheltie",
+  "version": "1.0.0",
+  "description": "shletie is a kubernetes client which get commands via message broker",
+  "main": "sheltie.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sheltie",
+    "kubernetes",
+    "message_broker",
+    "rabbitmq"
+  ],
+  "author": "Mohammad Khallaghi",
+  "license": "MIT",
+  "dependencies": {
+    "amqplib": "^0.5.2",
+    "kubernetes-client": "^5.2.0",
+    "yamljs": "^0.3.0"
+  }
+}
