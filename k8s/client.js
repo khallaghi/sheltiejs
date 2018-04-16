@@ -1,29 +1,26 @@
 const Client = require('kubernetes-client').Client;
 const config = require('kubernetes-client').config;
 const client = new Client({ config: config.fromKubeconfig(), version: '1.9' });
+const _ = require('lodash');
 
 const functions =  {
-  async handleObj (type, command, name, namespace, manifest) {
-	  console.log("helllo");
-	  console.log(type);
-	  console.log(command);
-    if (type === 'job') {
-      if (command === 'create') {
-	      console.log('HEY');
+  async handleObj(kind, action, name, namespace, manifest) {
+    if (_.isEqual(kind, 'job')) {
+      if (_.isEqual(action, 'create')) {
         await functions.createJob(manifest, namespace);
-      } else if (command === 'delete') {
+      } else if (_.isEqual(action, 'delete')) {
         await functions.deleteJob(name, namespace);
       }
-    } else if (type === 'deployment') {
-      if (command === 'create') {
+    } else if (_.isEqual(kind, 'deployment')) {
+      if (_.isEqual(action, 'create')) {
          await functions.createDeployment(manifest, namespace);
-      } else if (command === 'delete') {
+      } else if (_.isEqual(action, 'delete')) {
         await functions.deleteDeployment(name, namespace);
       }
-    } else if (type === 'pods') {
-      if (command === 'create') {
+    } else if (_.isEqual(kind, 'pod')) {
+      if (_.isEqual(action, 'create')) {
          await functions.createPod(manifest, namespace);
-      } else if (command === 'delete') {
+      } else if (_.isEqual(action, 'delete')) {
         await functions.deletePod(name, namespace);
       }
     }

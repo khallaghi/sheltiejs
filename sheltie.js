@@ -3,25 +3,34 @@ const yaml = require('yamljs');
 const config = require('./config/config');
 const InputMessage = require('./models/input_message');
 const consumer = require('./message_broker/consumer');
-const utils = require('./utils')
+const producer = require('./message_broker/producer');
+const utils = require('./utils');
+const _ = require('lodash');
 async function callback(rawMessage) {
+  let inputMessage = new InputMessage(rawMessage.content.toString());
   try {
     console.log('[X] %s', rawMessage.content.toString());
-    let inputMessage = new InputMessage(rawMessage.content.toString());
 	  console.log(inputMessage);
-    let deploymentObj = yaml.load(config.DEFAULT.ROOT_DIR + inputMessage.filename);
+    let deploymentObj = yaml.load(config.DEFAULT.ROOT_DIR + inputMessage.name + '.yaml');
+    if (_.isNull(deploymentObj)) return;
+    let kind = deploymentObj.kind || 'job';
     console.log('YAML:');
-    //console.log(JSON.stringify(deploymentObj));
-    //utils.addArgsToManifest(deploymentObj, inputMessage.args);
-	console.log(deploymentObj);
-    await k8s_client.handleObj(
-      inputMessage.type,
-      inputMessage.command,
-      inputMessage.name,
-      inputMessage.namespace,
-      deploymentObj
-    );
+    utils.addArgsToManifest(deploymentObj, inputMessage.args);
+	  console.log(deploymentObj);
+    await k8s_client.handleObj(kind, inputMessage.action, inputMessage.name, inputMessage.namespace, deploymentObj);
+    let message = {
+      id: inputMessage.id,
+      status: 0,
+      message: ''
+    };
+    producer(JSON.stringify(message));
   } catch (err) {
+    let message = {
+      id: inputMessage.id,
+      status: 1,
+      message: err
+    };
+    producer(JSON.stringify(message));
     console.log(err);
   }
 }

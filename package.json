@@ -17,6 +17,7 @@
   "dependencies": {
     "amqplib": "^0.5.2",
     "kubernetes-client": "^5.2.0",
+    "lodash": "^4.17.5",
     "yamljs": "^0.3.0"
   }
 }
