@@ -2,7 +2,7 @@ const amqp = require('amqplib');
 function producer(message) {
   amqp.connect('amqp://localhost').then(function (conn) {
     return conn.createChannel().then(function (ch) {
-      var ex = 'kubeclient';
+      var ex = 'kubecommand';
       var ok = ch.assertExchange(ex, 'fanout', {durable: false})
       return ok.then(function () {
         ch.publish(ex, '_command', Buffer.from(message));

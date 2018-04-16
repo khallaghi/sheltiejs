@@ -7,8 +7,15 @@ const producer = require('./message_broker/producer');
 const utils = require('./utils');
 const _ = require('lodash');
 async function callback(rawMessage) {
-  let inputMessage = new InputMessage(rawMessage.content.toString());
+console.log('raw message');
+	console.log(rawMessage.content.toString());
+	let inputMessage;
+	let _id;
   try {
+	_id = JSON.parse(rawMessage.content.toString())['id'];
+	if (_.isUndefined(_id))
+		  return;
+  	let inputMessage = new InputMessage(rawMessage.content.toString());
     console.log('[X] %s', rawMessage.content.toString());
 	  console.log(inputMessage);
     let deploymentObj = yaml.load(config.DEFAULT.ROOT_DIR + inputMessage.name + '.yaml');
@@ -17,18 +24,24 @@ async function callback(rawMessage) {
     console.log('YAML:');
     utils.addArgsToManifest(deploymentObj, inputMessage.args);
 	  console.log(deploymentObj);
+	console.log('------------------');
+	  console.log('kind ' +kind);
+	  console.log('act ' + inputMessage.action);
+	  console.log(inputMessage.namesapace);
+	console.log('------------------');
     await k8s_client.handleObj(kind, inputMessage.action, inputMessage.name, inputMessage.namespace, deploymentObj);
     let message = {
-      id: inputMessage.id,
+      id: _id,
       status: 0,
       message: ''
     };
     producer(JSON.stringify(message));
   } catch (err) {
+		if (!_.isNumber(err.statusCode)) err.statusCode = 1;
     let message = {
-      id: inputMessage.id,
-      status: 1,
-      message: err
+      id: _id,
+      status: err.statusCode,
+      message: err.message
     };
     producer(JSON.stringify(message));
     console.log(err);

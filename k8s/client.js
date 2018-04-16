@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 const functions =  {
   async handleObj(kind, action, name, namespace, manifest) {
-    if (_.isEqual(kind, 'job')) {
+    if (_.isEqual(_.toLower(kind), 'job')) {
       if (_.isEqual(action, 'create')) {
         await functions.createJob(manifest, namespace);
       } else if (_.isEqual(action, 'delete')) {
@@ -33,7 +33,7 @@ const functions =  {
 	    console.log(create)
     } catch (err) {
 	    console.log('ERROR');
-      console.log(err);
+      console.log(err.message);
       throw err;
     }
   },

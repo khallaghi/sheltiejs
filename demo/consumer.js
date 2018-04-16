@@ -5,12 +5,12 @@ function consumer(callback) {
       conn.close();
     });
     return conn.createChannel().then(function (ch) {
-      var ok = ch.assertExchange('kubeclient', 'fanout', {durable: false});
+      var ok = ch.assertExchange('kuberesponse', 'fanout', {durable: false});
       ok = ok.then(function () {
         return ch.assertQueue('_response', {exclusive: true});
       });
       ok = ok.then(function (qok) {
-        return ch.bindQueue(qok.queue, 'kubeclient', '_response').then(function () {
+        return ch.bindQueue(qok.queue, 'kuberesponse', '_response').then(function () {
           return qok.queue;
         });
       });
@@ -25,4 +25,8 @@ function consumer(callback) {
   }).catch(console.warn);
 
 }
-module.exports = consumer;
+function callback(message){
+	console.log(' [x] received message');
+	console.log(message.content.toString());
+}
+consumer(callback);

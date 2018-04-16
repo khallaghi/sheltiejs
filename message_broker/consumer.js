@@ -5,12 +5,12 @@ function consumer(callback) {
       conn.close();
     });
     return conn.createChannel().then(function (ch) {
-      var ok = ch.assertExchange('kubeclient', 'fanout', {durable: false});
+      var ok = ch.assertExchange('kubecommand', 'fanout', {durable: false});
       ok = ok.then(function () {
         return ch.assertQueue('_command', {exclusive: true});
       });
       ok = ok.then(function (qok) {
-        return ch.bindQueue(qok.queue, 'kubeclient', '_command').then(function () {
+        return ch.bindQueue(qok.queue, 'kubecommand', '_command').then(function () {
           return qok.queue;
         });
       });
