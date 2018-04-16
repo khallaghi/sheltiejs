@@ -4,8 +4,12 @@ const client = new Client({ config: config.fromKubeconfig(), version: '1.9' });
 
 const functions =  {
   async handleObj (type, command, name, namespace, manifest) {
+	  console.log("helllo");
+	  console.log(type);
+	  console.log(command);
     if (type === 'job') {
       if (command === 'create') {
+	      console.log('HEY');
         await functions.createJob(manifest, namespace);
       } else if (command === 'delete') {
         await functions.deleteJob(name, namespace);
@@ -29,7 +33,9 @@ const functions =  {
     namespace = namespace || 'default';
     try {
       const create = await client.apis.batch.v1.namespaces(namespace).jobs.post({body: manifest});
+	    console.log(create)
     } catch (err) {
+	    console.log('ERROR');
       console.log(err);
       throw err;
     }
