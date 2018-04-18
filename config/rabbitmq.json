@@ -7,11 +7,11 @@
     "heartbeat_interval": 0,
     "exchange_type": "fanout",
     "exchange": {
-        "producer": "kubecommand",
-        "consumer": "kuberesponse"
+        "producer": "kuberesponse",
+        "consumer": "kubecommand"
     },
     "queue": {
-        "producer": "_command",
-        "consumer": "_response"
+        "producer": "_response",
+        "consumer": "_command"
     }
 }
