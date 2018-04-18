@@ -9,7 +9,7 @@ module.exports = {
       manifest.spec.template.spec.containers[0].command = command;
       manifest.spec.template.spec.containers[0].args = [commandArgs];
       return manifest;
-    } catch (err if err instanceof TypeError) {
+    } catch (err) {
       console.log('TYPEERROR');
       throw err;
     }
