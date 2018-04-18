@@ -1,11 +1,13 @@
 const amqp = require('amqplib');
+const mqConfig = require('../config/rabbitmq');
+
+
 function producer(message) {
-  amqp.connect('amqp://localhost').then(function (conn) {
+  amqp.connect('amqp://' + mqConfig.host).then(function (conn) {
     return conn.createChannel().then(function (ch) {
-      let ex = 'kuberesponse';
-      let ok = ch.assertExchange(ex, 'fanout', {durable: false});
+      let ok = ch.assertExchange(mqConfig.exchange.producer, mqConfig.exchange_type, {durable: false});
       return ok.then(function () {
-        ch.publish(ex, '_response', Buffer.from(message));
+        ch.publish(mqConfig.exchange.producer, mqConfig.queue.producer, Buffer.from(message));
         console.log(" [x] Sent '%s'", message);
         return ch.close();
       });

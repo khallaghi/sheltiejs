@@ -1,0 +1,5 @@
+{
+    "ROOT_DIR": "/root/automation/",
+    "KUBECTL_CONFIG": "/etc/kubernetes/admin.conf",
+    "LOG_PATH": "/var/tmp/sheltie.log"
+}

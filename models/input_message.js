@@ -11,10 +11,11 @@ module.exports = class InputMessage {
 				throw err;
 			}
 		}
+    this.id = rawJson['id'];
     this.name = rawJson['name'];
     this.action= rawJson['action'];
     this.namespace = rawJson['namespace'] ;
+    this.authToken = rawJson['authtoken'];
     this.args = rawJson['args'];
-    this.id = rawJson['id'];
   }
 };

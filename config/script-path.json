@@ -1,0 +1,18 @@
+{
+  "MAIN_PATH": "/CORE/video/script2/",
+  "FILE_NAME": {
+    "video-ftp": "video-ftp.sh",
+    "video-subtitle2": "video-subtitle.sh",
+    "video-encryption": "video-aes.sh",
+    "video-convert": "video-convert.sh",
+    "video-download-watermark": "video-download.sh",
+    "video-thumbnail": "video-thumbnail.sh",
+    "video-subtitle": "video-subtitle.sh",
+    "video-get-size-video": "video-get-size.sh",
+    "video-chapter": "video-chapter.sh",
+    "video-get-info": "video-get-info.sh",
+    "video-download": "video-download.sh",
+    "video-directory": "video-directory.sh",
+    "video-get-size-user": "video-get-size.sh"
+  }
+}
