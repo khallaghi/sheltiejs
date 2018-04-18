@@ -11,6 +11,7 @@ async function callback(rawMessage) {
 	console.log(rawMessage.content.toString());
 	let _id;
   try {
+	  console.log('HEY');
 	_id = JSON.parse(rawMessage.content.toString())['id'];
 	if (_.isUndefined(_id))
 		  return;

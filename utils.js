@@ -22,7 +22,7 @@ function generateCommand(name, args) {
   mainCommand += scriptConfig['MAIN_PATH'] + scriptConfig['FILE_NAME'][name]  + ' ';
   for (let arg of args) {
     if (!_.isEqual(arg.key, '')  && !_.isEqual(arg.value, '')){
-      mainCommand += arg.key + ' ' + arg.value + ' ';
+      mainCommand += '-' + arg.key + ' ' + arg.value + ' ';
     }
   }
   return mainCommand;
