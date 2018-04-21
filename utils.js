@@ -1,6 +1,17 @@
 const _ = require('lodash');
 const scriptConfig = require('./config/script-path');
 module.exports = {
+  manipulateName(manifest, id) {
+    try {
+      let manipulatedName = manifest.metadata.name + id;
+      manifest.metadata.name = manipulatedName;
+      manifest.spec.template.metadata.name = manipulatedName;
+      return manifest;
+    }  catch (err) {
+      console.log(err);
+      throw err;
+    }
+  },
   addArgsToManifest (manifest, args) {
     try {
       let name = manifest.metadata.name;
