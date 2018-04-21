@@ -1,29 +1,35 @@
 const Client = require('kubernetes-client').Client;
 const config = require('kubernetes-client').config;
-const client = new Client({ config: config.fromKubeconfig(), version: '1.9' });
+const defaultConfig = require('../config/default.json')
 const _ = require('lodash');
+let client;
+if (defaultConfig['K8S_CONFIG'] === 'GET_IN_CLUSTER') {
+	client = new Client({ config: config.getInCluster(), version: '1.9' });
+} else if(defaultConfig['K8S_CONFIG'] === 'FROM_KUBE_CONFIG') {
+	client = new Client({ config: config.fromKubeconfig(), version: '1.9' });
+}
 
 const functions =  {
   async handleObj(kind, action, name, namespace, manifest) {
-    if (_.isEqual(_.toLower(kind), 'job')) {
-      if (_.isEqual(action, 'create')) {
+//    if (_.isEqual(_.toLower(kind), 'job')) {
+//      if (_.isEqual(action, 'create')) {
         await functions.createJob(manifest, namespace);
-      } else if (_.isEqual(action, 'delete')) {
-        await functions.deleteJob(name, namespace);
-      }
-    } else if (_.isEqual(kind, 'deployment')) {
-      if (_.isEqual(action, 'create')) {
-         await functions.createDeployment(manifest, namespace);
-      } else if (_.isEqual(action, 'delete')) {
-        await functions.deleteDeployment(name, namespace);
-      }
-    } else if (_.isEqual(kind, 'pod')) {
-      if (_.isEqual(action, 'create')) {
-         await functions.createPod(manifest, namespace);
-      } else if (_.isEqual(action, 'delete')) {
-        await functions.deletePod(name, namespace);
-      }
-    }
+//      } else if (_.isEqual(action, 'delete')) {
+//        await functions.deleteJob(name, namespace);
+//      }
+//    } else if (_.isEqual(kind, 'deployment')) {
+//      if (_.isEqual(action, 'create')) {
+//         await functions.createDeployment(manifest, namespace);
+//      } else if (_.isEqual(action, 'delete')) {
+//        await functions.deleteDeployment(name, namespace);
+//      }
+//    } else if (_.isEqual(kind, 'pod')) {
+//      if (_.isEqual(action, 'create')) {
+//         await functions.createPod(manifest, namespace);
+//      } else if (_.isEqual(action, 'delete')) {
+//        await functions.deletePod(name, namespace);
+//      }
+//    }
   },
 
   async createJob(manifest, namespace) {

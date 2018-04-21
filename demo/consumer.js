@@ -1,16 +1,17 @@
 const amqp = require('amqplib');
+const rabbitmqConfig = require('../config/rabbitmq');
 function consumer(callback) {
-  amqp.connect('amqp://localhost').then(function (conn) {
+  amqp.connect('amqp://' + rabbitmqConfig.host).then(function (conn) {
     process.once('SIGINT', function () {
       conn.close();
     });
     return conn.createChannel().then(function (ch) {
-      var ok = ch.assertExchange('kuberesponse', 'fanout', {durable: false});
+      var ok = ch.assertExchange(rabbitmqConfig.exchange.producer, rabbitmqConfig.exchange_type, {durable: false});
       ok = ok.then(function () {
-        return ch.assertQueue('_response', {exclusive: true});
+        return ch.assertQueue(rabbitmqConfig.queue.producer, {exclusive: true});
       });
       ok = ok.then(function (qok) {
-        return ch.bindQueue(qok.queue, 'kuberesponse', '_response').then(function () {
+        return ch.bindQueue(qok.queue, rabbitmqConfig.exchange.producer, rabbitmqConfig.queue.producer).then(function () {
           return qok.queue;
         });
       });

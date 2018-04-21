@@ -1,5 +1,6 @@
 {
     "ROOT_DIR": "/root/automation/",
     "KUBECTL_CONFIG": "/etc/kubernetes/admin.conf",
-    "LOG_PATH": "/var/tmp/sheltie.log"
+    "LOG_PATH": "/var/tmp/sheltie.log",
+    "K8S_CONFIG": "FROM_KUBE_CONFIG"
 }
