@@ -3,7 +3,7 @@ const scriptConfig = require('./config/script-path');
 module.exports = {
   manipulateName(manifest, id) {
     try {
-      let manipulatedName = manifest.metadata.name + id;
+      let manipulatedName = manifest.metadata.name +'-'  + id;
       manifest.metadata.name = manipulatedName;
       manifest.spec.template.metadata.name = manipulatedName;
       return manifest;
