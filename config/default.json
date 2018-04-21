@@ -2,5 +2,5 @@
     "ROOT_DIR": "/root/automation/",
     "KUBECTL_CONFIG": "/etc/kubernetes/admin.conf",
     "LOG_PATH": "/var/tmp/sheltie.log",
-    "K8S_CONFIG": "FROM_KUBE_CONFIG"
+    "K8S_CONFIG": "GET_IN_CLUSTER"
 }

@@ -1,7 +1,7 @@
 {
     "pass": "guest",
     "user": "guest",
-    "host": "localhost",
+    "host": "10.24.52.243",
     "port": 5672,
     "vhost": "/",
     "heartbeat_interval": 0,

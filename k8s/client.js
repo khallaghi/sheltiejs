@@ -1,13 +1,19 @@
 const Client = require('kubernetes-client').Client;
 const config = require('kubernetes-client').config;
-const defaultConfig = require('../config/default.json')
+const defaultConfig = require('../config/default.json');
 const _ = require('lodash');
+
 let client;
 if (defaultConfig['K8S_CONFIG'] === 'GET_IN_CLUSTER') {
+	console.log('GET_IN_CLUSTER');
+	console.log('GET_IN_CLUSTER');
+	console.log(JSON.stringify(config.getInCluster()));
 	client = new Client({ config: config.getInCluster(), version: '1.9' });
-} else if(defaultConfig['K8S_CONFIG'] === 'FROM_KUBE_CONFIG') {
-	client = new Client({ config: config.fromKubeconfig(), version: '1.9' });
-}
+} //else if(defaultConfig['K8S_CONFIG'] === 'FROM_KUBE_CONFIG') {
+//	console.log('FROM_KUBE_CONFIG');
+//	console.log('FROM_KUBE_CONFIG');
+//	client = new Client({ config: config.fromKubeconfig(), version: '1.9' });
+//}
 
 const functions =  {
   async handleObj(kind, action, name, namespace, manifest) {

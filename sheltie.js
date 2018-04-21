@@ -20,8 +20,8 @@ async function callback(rawMessage) {
     let deploymentObj = yaml.load(config.ROOT_DIR + inputMessage.name + '.yaml');
     if (_.isNull(deploymentObj)) return;
     let kind = deploymentObj.kind || 'job';
-    deploymentObj = utils.manipulateName(deploymentObj, _id);
     deploymentObj = utils.addArgsToManifest(deploymentObj, inputMessage.args);
+    deploymentObj = utils.manipulateName(deploymentObj, _id);
     console.log('DEPLOYMENT: ');
     console.log(JSON.stringify(deploymentObj));
     await k8s_client.handleObj(kind, inputMessage.action, inputMessage.name, inputMessage.namespace, deploymentObj);

@@ -1,34 +1,44 @@
 apiVersion: apps/v1beta2 # for versions before 1.8.0 use apps/v1beta1
 kind: Deployment
 metadata:
-  name: arvancnt-rabbitmq
+  name: arvancnt-sheltie
   labels:
-    app: arvancnt-rabbitmq
+    app: arvancnt-sheltie
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: arvancnt-rabbitmq
+      app: arvancnt-sheltie
   template:
     metadata:
       labels:
-        app: arvancnt-rabbitmq
+        app: arvancnt-sheltie
     spec:
+      serviceAccountName: sheltie-builder
+      automountServiceAccountToken: false
       hostNetwork: true
       imagePullSecrets:
       - name: arvan-registry
       containers:
-      - image: reg.arvancloud.com:5000/rabbitmq:latest
-        name: arvancnt-rabbitmq
-         
+      - image: khallaghi/sheltie:0.3.5
+        name: arvancnt-sheltie
+        volumeMounts:
+        - name: automation-files
+          mountPath: /root/automation 
+      volumes:
+      - name: automation-files
+        hostPath:
+          path: /root/automation
+          type: Directory
+
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: arvancnt-rabbitmq
+  name: arvancnt-sheltie
 spec:
   selector:
-    app: arvancnt-rabbitmq
+    app: arvancnt-sheltie
   ports:
   - name: http
     protocol: TCP
@@ -45,6 +55,6 @@ spec:
   - name: ampq
     port: 5672
     targetPort: 5672
-  clusterIP: 10.96.184.243
+  clusterIP: 10.96.184.242
   externalIPs:
-  -  10.24.52.243
+  -  10.24.52.241
