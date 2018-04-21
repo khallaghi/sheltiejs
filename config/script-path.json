@@ -2,7 +2,6 @@
   "MAIN_PATH": "/CORE/video/script2/",
   "FILE_NAME": {
     "video-ftp": "video-ftp.sh",
-    "video-subtitle2": "video-subtitle.sh",
     "video-encryption": "video-aes.sh",
     "video-convert": "video-convert.sh",
     "video-download-watermark": "video-download.sh",
