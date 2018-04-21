@@ -1,45 +1,40 @@
 const Client = require('kubernetes-client').Client;
 const config = require('kubernetes-client').config;
-const defaultConfig = require('../config/default.json');
+const defaultConfig = require('../config/default');
 const _ = require('lodash');
 
 let client;
-if (defaultConfig['K8S_CONFIG'] === 'GET_IN_CLUSTER') {
-	console.log('GET_IN_CLUSTER');
-	console.log('GET_IN_CLUSTER');
-	console.log(JSON.stringify(config.getInCluster()));
-	client = new Client({ config: config.getInCluster(), version: '1.9' });
-} //else if(defaultConfig['K8S_CONFIG'] === 'FROM_KUBE_CONFIG') {
-//	console.log('FROM_KUBE_CONFIG');
-//	console.log('FROM_KUBE_CONFIG');
-//	client = new Client({ config: config.fromKubeconfig(), version: '1.9' });
-//}
+if (defaultConfig.kubernetesConfigType === 'GET_IN_CLUSTER') {
+	client = new Client({ config: config.getInCluster(), version: defaultConfig.apiVersion });
+} else if(defaultConfig.kubernetesConfigType === 'FROM_KUBE_CONFIG') {
+	client = new Client({ config: config.fromKubeconfig(), version: defaultConfig.apiVersion });
+}
 
 const functions =  {
-  async handleObj(kind, action, name, namespace, manifest) {
-//    if (_.isEqual(_.toLower(kind), 'job')) {
-//      if (_.isEqual(action, 'create')) {
-        await functions.createJob(manifest, namespace);
-//      } else if (_.isEqual(action, 'delete')) {
-//        await functions.deleteJob(name, namespace);
-//      }
-//    } else if (_.isEqual(kind, 'deployment')) {
-//      if (_.isEqual(action, 'create')) {
-//         await functions.createDeployment(manifest, namespace);
-//      } else if (_.isEqual(action, 'delete')) {
-//        await functions.deleteDeployment(name, namespace);
-//      }
-//    } else if (_.isEqual(kind, 'pod')) {
-//      if (_.isEqual(action, 'create')) {
-//         await functions.createPod(manifest, namespace);
-//      } else if (_.isEqual(action, 'delete')) {
-//        await functions.deletePod(name, namespace);
-//      }
-//    }
+  async handleObj(deploymentInfo, deploymentObj) {
+
+   if (_.isEqual(_.toLower(deploymentInfo.kind), 'job')) {
+     if (_.isEqual(deploymentInfo.action, 'create')) {
+        await functions.createJob(deploymentObj, deploymentInfo.namespace);
+     } else if (_.isEqual(deploymentInfo.action, 'delete')) {
+       await functions.deleteJob(deploymentInfo.name, deploymentInfo.namespace);
+     }
+   } else if (_.isEqual(deploymentInfo.kind, 'deployment')) {
+     if (_.isEqual(deploymentInfo.action, 'create')) {
+        await functions.createDeployment(deploymentObj, deploymentInfo.namespace);
+     } else if (_.isEqual(deploymentInfo.action, 'delete')) {
+       await functions.deleteDeployment(deploymentInfo.name, deploymentInfo.namespace);
+     }
+   } else if (_.isEqual(deploymentInfo.kind, 'pod')) {
+     if (_.isEqual(deploymentInfo.action, 'create')) {
+        await functions.createPod(deploymentObj, deploymentInfo.namespace);
+     } else if (_.isEqual(deploymentInfo.action, 'delete')) {
+       await functions.deletePod(deploymentInfo.name, deploymentInfo.namespace);
+     }
+   }
   },
 
   async createJob(manifest, namespace) {
-    namespace = namespace || 'default';
     try {
       const create = await client.apis.batch.v1.namespaces(namespace).jobs.post({body: manifest});
 	    console.log(create)

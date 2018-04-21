@@ -1,9 +1,10 @@
 const _ = require('lodash');
 const scriptConfig = require('./config/script-path');
+const defaultConfig = require('./config/default');
 module.exports = {
   manipulateName(manifest, id) {
     try {
-      let manipulatedName = manifest.metadata.name +'-'  + id;
+      let manipulatedName = manifest.metadata.name + defaultConfig.delimiter + id;
       manifest.metadata.name = manipulatedName;
       manifest.spec.template.metadata.name = manipulatedName;
       return manifest;
@@ -26,7 +27,6 @@ module.exports = {
     }
   }
 };
-
 function generateCommand(name, args) {
   let mainCommand = '';
   mainCommand += 'bash ';

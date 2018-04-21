@@ -1,6 +1,12 @@
 {
-    "ROOT_DIR": "/root/automation/",
-    "KUBECTL_CONFIG": "/etc/kubernetes/admin.conf",
-    "LOG_PATH": "/var/tmp/sheltie.log",
-    "K8S_CONFIG": "GET_IN_CLUSTER"
+    "rootDirectory": "/root/automation/",
+    "kubectlConfigFile": "/etc/kubernetes/admin.conf",
+    "logFilePath": "/var/tmp/sheltie.log",
+    "kubernetesConfigType": "GET_IN_CLUSTER",
+    "kind": "job",
+    "action": "action",
+    "delimiter": "-",
+    "deploymentFileExtension": ".yaml",
+    "namespace": "default",
+    "apiVersion": "1.9"
 }
