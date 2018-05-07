@@ -14,7 +14,6 @@ spec:
       labels:
         app: arvancnt-rabbitmq
     spec:
-      hostNetwork: true
       imagePullSecrets:
       - name: arvan-registry
       containers:

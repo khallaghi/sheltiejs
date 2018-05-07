@@ -4,7 +4,7 @@
     "logFilePath": "/var/tmp/sheltie.log",
     "kubernetesConfigType": "GET_IN_CLUSTER",
     "kind": "job",
-    "action": "action",
+    "action": "create",
     "delimiter": "-",
     "deploymentFileExtension": ".yaml",
     "namespace": "default",

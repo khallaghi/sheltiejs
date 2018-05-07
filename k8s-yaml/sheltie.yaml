@@ -14,17 +14,15 @@ spec:
       labels:
         app: arvancnt-sheltie
     spec:
-      serviceAccountName: sheltie-builder
-      automountServiceAccountToken: false
       hostNetwork: true
       imagePullSecrets:
       - name: arvan-registry
       containers:
-      - image: khallaghi/sheltie:0.3.5
+      - image: khallaghi/sheltie:0.9
         name: arvancnt-sheltie
         env:
         - name: MQ_HOST
-          value: "arvancnt-rabbitmq"
+          value: "10.24.52.243"
         - name: MQ_EXCHANGE_NAME
           value: "kubecommand"
         - name: MQ_QUEUE_NAME
@@ -38,7 +36,7 @@ spec:
         - name: MQ_PASSWORD
           value: "guest"
         - name: ROOT_DIR
-          value: "/root/automation"
+          value: "/root/automation/"
         volumeMounts:
         - name: automation-files
           mountPath: /root/automation 

@@ -12,9 +12,10 @@ if (defaultConfig.kubernetesConfigType === 'GET_IN_CLUSTER') {
 
 const functions =  {
   async handleObj(deploymentInfo, deploymentObj) {
-
+	console.log(JSON.stringify(deploymentInfo));
    if (_.isEqual(_.toLower(deploymentInfo.kind), 'job')) {
      if (_.isEqual(deploymentInfo.action, 'create')) {
+     console.log('CREATE JOB');
         await functions.createJob(deploymentObj, deploymentInfo.namespace);
      } else if (_.isEqual(deploymentInfo.action, 'delete')) {
        await functions.deleteJob(deploymentInfo.name, deploymentInfo.namespace);
