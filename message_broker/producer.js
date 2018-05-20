@@ -1,9 +1,16 @@
 const amqp = require('amqplib');
 const mqConfig = require('../config/rabbitmq');
 
+let connectionObj = {};
+connectionObj.host = process.env.MQ_HOST || mqConfig.host;
+connectionObj.port = process.env.MQ_PORT || mqConfig.port;
+connectionObj.vhost = process.env.MQ_VHOST || mqConfig.vhost;
+connectionObj.username = process.env.MQ_USERNAME || mqConfig.user;
+connectionObj.password = process.env.MQ_PASSWORD || mqConfig.pass;
 
 function producer(message) {
-  amqp.connect('amqp://' + mqConfig.host).then(function (conn) {
+
+  amqp.connect(connectionObj).then(function (conn) {
     return conn.createChannel().then(function (ch) {
       let ok = ch.assertExchange(mqConfig.exchange.producer, mqConfig.exchange_type, {durable: false});
       return ok.then(function () {

@@ -2,6 +2,7 @@ const Client = require('kubernetes-client').Client;
 const config = require('kubernetes-client').config;
 const defaultConfig = require('../config/default');
 const _ = require('lodash');
+const logger = require('../logger');
 
 let client;
 if (defaultConfig.kubernetesConfigType === 'GET_IN_CLUSTER') {
@@ -39,7 +40,7 @@ const functions =  {
       const create = await client.apis.batch.v1.namespaces(namespace).jobs.post({body: manifest});
 	    console.log(create)
     } catch (err) {
-	    console.log('ERROR');
+      logger.error()
       console.log(err.message);
       throw err;
     }

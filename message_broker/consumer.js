@@ -3,15 +3,17 @@ const mqConfig = require('../config/rabbitmq');
 
 
 function consumer(callback) {
-  const host = process.env.MQ_HOST || mqConfig.host;
+  let connectionObj = {};
+  connectionObj.host = process.env.MQ_HOST || mqConfig.host;
+  connectionObj.port = process.env.MQ_PORT || mqConfig.port;
+  connectionObj.vhost = process.env.MQ_VHOST || mqConfig.vhost;
+  connectionObj.username = process.env.MQ_USERNAME || mqConfig.user;
+  connectionObj.password = process.env.MQ_PASSWORD || mqConfig.pass;
+  
   const exchange = process.env.EXCHANGE_NAME || mqConfig.exchange.consumer;
   const queue = process.env.QUEUE_NAME || mqConfig.queue.consumer;
-  const port = process.env.MQ_HOST || mqConfig.port;
-  const vhost = process.env.MQ_VHOST || mqConfig.vhost;
-  const username = process.env.MQ_USERNAME || mqConfig.user;
-  const password = process.env.MQ_PASSWORD || mqConfig.pass;
 
-  amqp.connect('amqp://' + host).then(function (conn) {
+  amqp.connect().then(function (conn) {
     process.once('SIGINT', function () {
       conn.close();
     });
