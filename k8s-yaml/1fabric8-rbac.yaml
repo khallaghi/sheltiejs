@@ -4,7 +4,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: sheltie-builder
+  name: motherfucker-builder
   namespace: default
 
 ---
@@ -15,7 +15,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     # Reference to upper's `metadata.name`
-    name: default
+    name: motherfucker-builder
     # Reference to upper's `metadata.namespace`
     namespace: default
 roleRef:

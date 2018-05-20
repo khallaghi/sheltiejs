@@ -21,7 +21,7 @@ async function callback(rawMessage) {
     let deploymentObj = yaml.load(rootDirectory + inputMessage.name + defaultConfig.deploymentFileExtension);
     if (_.isNull(deploymentObj)) return;
     const deploymentInfo = {
-      kind: deploymentObj.kind || defaultConfig.kind,
+      kind:  defaultConfig.kind,
       action: inputMessage.action || defaultConfig.action,
       namespace: inputMessage.namespace || defaultConfig.namespace,
       name: inputMessage.name
