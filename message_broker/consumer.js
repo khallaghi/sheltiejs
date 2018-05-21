@@ -9,11 +9,11 @@ function consumer(callback) {
   connectionObj.vhost = process.env.MQ_VHOST || mqConfig.vhost;
   connectionObj.username = process.env.MQ_USERNAME || mqConfig.user;
   connectionObj.password = process.env.MQ_PASSWORD || mqConfig.pass;
-  
+
   const exchange = process.env.EXCHANGE_NAME || mqConfig.exchange.consumer;
   const queue = process.env.QUEUE_NAME || mqConfig.queue.consumer;
 
-  amqp.connect().then(function (conn) {
+  amqp.connect(connectionObj).then(function (conn) {
     process.once('SIGINT', function () {
       conn.close();
     });
