@@ -4,7 +4,7 @@ const mqConfig = require('../config/rabbitmq');
 
 function consumer(callback) {
   let connectionObj = {};
-  connectionObj.host = process.env.MQ_HOST || mqConfig.host;
+  connectionObj.hostname = process.env.MQ_HOST || mqConfig.host;
   connectionObj.port = process.env.MQ_PORT || mqConfig.port;
   connectionObj.vhost = process.env.MQ_VHOST || mqConfig.vhost;
   connectionObj.username = process.env.MQ_USERNAME || mqConfig.user;
